@@ -15,8 +15,7 @@ from api.serializers import (FollowSerializer, IngredientSerializer,
                              TagsSerializer)
 from api.utils import download_cart
 
-from recipes.models import (Favourite, Ingredient, Recipe, RecipeIngredients,
-                            ShoppingCart, Tag)
+from recipes.models import (Favourite, Ingredient, Recipe, ShoppingCart, Tag)
 from users.models import Follow, User
 
 
