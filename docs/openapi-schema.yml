@@ -285,7 +285,7 @@ paths:
                 $ref: '#/components/schemas/RecipeList'
           description: 'Рецепт успешно обновлен'
         '400':
-          $ref: '#/components/responses/NestedValidationError'
+          $ref: '#/components/responses/Nested'
         '401':
           $ref: '#/components/responses/AuthenticationError'
         '403':
