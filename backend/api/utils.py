@@ -1,5 +1,4 @@
-from django.db.models.aggregates import Sum
-from django.http import FileResponse, HttpResponse
+from django.http import FileResponse
 from reportlab.pdfgen import canvas
 from io import BytesIO
 from reportlab.pdfbase import pdfmetrics

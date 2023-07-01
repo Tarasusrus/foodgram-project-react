@@ -37,9 +37,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    # 'api.apps.ApiConfig', 
-    # 'posts.apps.PostsConfig', 
-    # 'users.apps.UsersConfig', 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework.authtoken',
     'rest_framework',
-    'djoser',  # Спринт 9/16 → Тема 2/4: Взаимодействие фронтенда и бэкенда → Урок 1/7
+    'djoser',  # Спринт 9/16 → Тема 2/4: → Урок 1/7
     'django_filters',
     'api',
     'users',
@@ -58,7 +55,7 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated', 
+        'rest_framework.permissions.IsAuthenticated',
     ],
     # Изменили токен, вместо JWT подключили auth_token:
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -158,7 +155,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
-MEDIA_URL = '/media/'                   # Определяем директорию медиафайло
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 

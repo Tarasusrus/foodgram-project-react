@@ -1,7 +1,6 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import UniqueConstraint
-from django.core.exceptions import ValidationError
 
 from api.validators import validate_year, validate_ingredients
 from users.models import User

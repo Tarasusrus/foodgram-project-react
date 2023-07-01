@@ -17,13 +17,13 @@ class TagAdmin(admin.ModelAdmin):
     list_filter = ('name', 'color', 'slug')
 
 
-class RecipeIngredientsInLine(admin.TabularInline):    
+class RecipeIngredientsInLine(admin.TabularInline):
     model = Recipe.ingredients.through
     extra = 1
     min_num = 1
 
 
-@admin.register(Recipe) 
+@admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     '''Админка ингредеентов'''
 
@@ -70,5 +70,3 @@ class FavouriteAdmin(admin.ModelAdmin):
 
     list_display = ('user', 'recipe',)
     search_fields = ('user', 'recipe',)
-
-
