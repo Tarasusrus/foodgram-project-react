@@ -27,9 +27,6 @@ class MyUserSerializer(UserSerializer):
 
     def get_is_subscribed(self, obj):
         user = self.context.get('request').user
-        # if user.is_anonymous:
-        #    return False
-        # return Follow.objects.filter(user=user, author=obj).exists()
         return user.is_authenticated and Follow.objects.filter(
             user=user, author=obj).exists()
 
@@ -47,7 +44,6 @@ class FollowSerializer(MyUserSerializer):
                             'first_name', 'last_name')
 
     def get_recipes(self, obj):
-        # recipes = obj.recipes.all()
         recipes = obj.author.recipes.all()
         serializer = RecipeShortSerializer(recipes, many=True,
                                            context=self.context)
@@ -74,8 +70,6 @@ class IngredientInRecipeCreateSerializer(ModelSerializer):
 
     id = PrimaryKeyRelatedField(queryset=Ingredient.objects.all())
     name = serializers.ReadOnlyField(source='ingredient.name')
-    # id = serializers.ReadOnlyField(source='ingredient.id')
-    # id = serializers.ReadOnlyField(source=Ingredient.objects.all())
 
     measurement_unit = serializers.ReadOnlyField(
         source='ingredient.measurement_unit')
@@ -83,11 +77,6 @@ class IngredientInRecipeCreateSerializer(ModelSerializer):
     class Meta:
         model = RecipeIngredients
         fields = ('id', 'amount', 'name', 'measurement_unit')
-
-    # def to_representation(self, instance):
-    #    data = super().to_representation(instance)
-    #    data['id'] = instance.ingredient.id
-    #    return data
 
 
 class RecipeReadSerializer(ModelSerializer):
@@ -108,17 +97,11 @@ class RecipeReadSerializer(ModelSerializer):
 
     def get_is_favorited(self, obj):
         user = self.context['request'].user
-        # if user.is_anonymous:
-        #    return False
-        # return Favourite.objects.filter(user=user, recipe=obj).exists()
         return user.is_authenticated and Favourite.objects.filter(
             user=user, recipe=obj).exists()
 
     def get_is_in_shopping_cart(self, obj):
         user = self.context['request'].user
-        # if user.is_anonymous:
-        #    return False
-        # return ShoppingCart.objects.filter(user=user, recipe=obj).exists()
         return user.is_authenticated and ShoppingCart.objects.filter(
             user=user, recipe=obj).exists()
 
@@ -137,14 +120,7 @@ class RecipeCreateSerializer(ModelSerializer):
         fields = ('id', 'tags', 'author', 'ingredients',
                   'name', 'image', 'text', 'cooking_time')
 
-    # def validate_tags(self, value):
-        # if not value:
-        #    raise ValidationError('Нужно добавить тег.')
-        # return value
-
     def validate_ingredients(self, value):
-        # if not value:
-        #    raise ValidationError('Нужно добавить ингридиент.')
         for i in value:
             if i['amount'] <= 0:
                 raise ValidationError('Колличество должно быть больше 0')
@@ -162,9 +138,6 @@ class RecipeCreateSerializer(ModelSerializer):
         recipe = Recipe.objects.create(**validated_data)
         recipe.tags.set(tags)
         for ingredient in ingredients:
-            # RecipeIngredients.objects.create(recipe=recipe,
-            # ingredient=ingredient.get('id'),
-            # amount=ingredient.get('amount'))
             RecipeIngredients.objects.bulk_create(
                 [RecipeIngredients(
                     recipe=recipe,

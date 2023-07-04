@@ -69,11 +69,7 @@ class MeUserViewSet(UserViewSet):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-# class TEST(mixins.ListModelMixin,
-#    mixins.RetrieveModelMixin,
-#    viewsets.GenericViewSet):  
-
-class TagViewSet(mixins.ListModelMixin, 
+class TagViewSet(mixins.ListModelMixin,
                  mixins.RetrieveModelMixin,
                  viewsets.GenericViewSet):
     '''Теги.'''
@@ -89,7 +85,6 @@ class IngredientViewSet(
     mixins.RetrieveModelMixin,
     viewsets.GenericViewSet
 ):
-    # viewsets.ReadOnlyModelViewSet):
     '''Ингридиенты.'''
 
     queryset = Ingredient.objects.all()
@@ -100,18 +95,7 @@ class IngredientViewSet(
     pagination_class = None
 
 
-# class CreateListRetrieveViewSet(mixins.ListModelMixin,
-#                                mixins.RetrieveModelMixin,
-#                                viewsets.GenericViewSet):
-#    pass
-
-class RecipeViewSet(
-    #mixins.ListModelMixin,
-    #mixins.RetrieveModelMixin,
-    #viewsets.GenericViewSet
-    viewsets.ModelViewSet
-):
-    # viewsets.ModelViewSet):
+class RecipeViewSet(viewsets.ModelViewSet):
     '''Рецепты.'''
 
     queryset = Recipe.objects.all()
@@ -119,10 +103,7 @@ class RecipeViewSet(
     pagination_class = CustumPagination
     filter_backends = (DjangoFilterBackend, )
     filterset_class = RecipeFilter
-    http_method_names = ['get', 'post', 'patch', 'delete'
-        # m for m in viewsets.ModelViewSet.http_method_names if m not in ['put'] 
-       # m for m in viewsets.GenericViewSet.http_method_names if m not in ['put']
-    ]
+    http_method_names = ['get', 'post', 'patch', 'delete']
 
     def get_serializer_class(self):
         if self.request.method in SAFE_METHODS:
