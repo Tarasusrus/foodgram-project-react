@@ -142,8 +142,7 @@ class RecipeCreateSerializer(ModelSerializer):
                 [RecipeIngredients(
                     recipe=recipe,
                     ingredient=ingredient.get('id'),
-                    amount=ingredient.get('amount')
-                    )])
+                    amount=ingredient.get('amount'))])
         return recipe
 
     def update(self, instance, validated_data):
