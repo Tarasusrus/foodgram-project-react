@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
-from rest_framework import status, viewsets
+from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
 from rest_framework.response import Response
@@ -69,7 +69,13 @@ class MeUserViewSet(UserViewSet):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-class TagViewSet(viewsets.ReadOnlyModelViewSet):
+# class TEST(mixins.ListModelMixin,
+#    mixins.RetrieveModelMixin,
+#    viewsets.GenericViewSet):  
+
+class TagViewSet(mixins.ListModelMixin, 
+                 mixins.RetrieveModelMixin,
+                 viewsets.GenericViewSet):
     '''Теги.'''
 
     queryset = Tag.objects.all()
@@ -78,7 +84,12 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = None
 
 
-class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
+class IngredientViewSet(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet
+):
+    # viewsets.ReadOnlyModelViewSet):
     '''Ингридиенты.'''
 
     queryset = Ingredient.objects.all()
@@ -89,7 +100,18 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = None
 
 
-class RecipeViewSet(viewsets.ModelViewSet):
+# class CreateListRetrieveViewSet(mixins.ListModelMixin,
+#                                mixins.RetrieveModelMixin,
+#                                viewsets.GenericViewSet):
+#    pass
+
+class RecipeViewSet(
+    #mixins.ListModelMixin,
+    #mixins.RetrieveModelMixin,
+    #viewsets.GenericViewSet
+    viewsets.ModelViewSet
+):
+    # viewsets.ModelViewSet):
     '''Рецепты.'''
 
     queryset = Recipe.objects.all()
@@ -97,8 +119,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
     pagination_class = CustumPagination
     filter_backends = (DjangoFilterBackend, )
     filterset_class = RecipeFilter
-    http_method_names = [
-        m for m in viewsets.ModelViewSet.http_method_names if m not in ['put']
+    http_method_names = ['get', 'post', 'patch', 'delete'
+        # m for m in viewsets.ModelViewSet.http_method_names if m not in ['put'] 
+       # m for m in viewsets.GenericViewSet.http_method_names if m not in ['put']
     ]
 
     def get_serializer_class(self):

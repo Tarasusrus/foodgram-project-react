@@ -10,8 +10,6 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
         return (request.method in permissions.SAFE_METHODS
                 or request.user.is_authenticated
                 and obj.author == request.user)
-        # return (request.method in permissions.SAFE_METHODS
-        #        or obj.author == request.user)
 
 
 class IsAdminOrReadOnly(permissions.BasePermission):

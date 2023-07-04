@@ -26,8 +26,8 @@ def validate_ingredients(self, value):
     '''Валидатор ингридиентов.'''
     if not value:
         raise ValidationError('Добавьте ингридиенты')
-    for i in value:
-        if i['amount'] <= 0:
+    for amount in value:
+        if amount['amount'] <= 0:
             raise ValidationError(
                 'Колличество ингридиентов должго быть больше 0')
     return value
