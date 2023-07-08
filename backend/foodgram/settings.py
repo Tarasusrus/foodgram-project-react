@@ -17,9 +17,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = '-y@o%x-j-^w4vodfq*v8(5r!(73i65a8#m!%uup6$idbyl)m8o'
 
-DEBUG = True
+ALLOWED_HOSTS = ['130.193.52.236', '127.0.0.1', 'localhost', 'brusselscats.hopto.org']
 
-ALLOWED_HOSTS = ['*']
+DEBUG = True
 
 
 INSTALLED_APPS = [
@@ -123,8 +123,8 @@ USE_L10N = True
 USE_TZ = True
 
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static_backend/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'collect_static')
 
 
 MEDIA_URL = '/media/'
