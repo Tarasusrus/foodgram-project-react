@@ -11,8 +11,8 @@ http://localhost/api/docs/redoc.html
 
 ### Доступные адреса Foodgram:
 ```
-http://127.0.0.1/
-http://127.0.0.1/admin/
+https://brusselscats.hopto.org/
+https://brusselscats.hopto.org/admin/
 ```
 
 ### Использовалось:
@@ -22,3 +22,9 @@ http://127.0.0.1/admin/
 | Python    |
 | Javascript|
 | Postgresql|
+
+# Тестовый пользователь 
+```
+Эл. почта - blob@ll.hh
+Пароль - otto109020
+```
