@@ -1,5 +1,6 @@
+from django.db.models.aggregates import Sum
 from io import BytesIO
-from django.http import FileResponse
+from django.http import FileResponse, HttpResponse
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
@@ -7,6 +8,22 @@ from reportlab.pdfgen import canvas
 from api.serializers import RecipeIngredients
 
 
+def download_cart(request):
+    ingredients = RecipeIngredients.objects.filter(
+        recipe__shopping__user=request.user).values(
+        'ingredient__name', 'ingredient__measurement_unit'
+        ).annotate(amount=Sum('amount'))
+
+    text = ''
+    for ingredient in ingredients:
+        text += (f'•  {ingredient["ingredient__name"]}'
+                 f'({ingredient["ingredient__measurement_unit"]})'
+                 f'— {ingredient["amount"]}\n')
+    headers = {'Content-Disposition': 'attchment; filename=shoping_cart.txt'}
+    return HttpResponse(
+        text, content_type='text/plain; charset=UTF-8', headers=headers)
+
+'''
 def download_cart(request):
     ingredients = RecipeIngredients.objects.filter(
         recipe__shopping__user=request.user).values_list(
@@ -23,7 +40,7 @@ def download_cart(request):
             cart_list[name]['amount'] += item[2]
     height = 700
     buffer = BytesIO()
-    pdfmetrics.registerFont(TTFont('arial', 'static/arial.ttf'))
+    pdfmetrics.registerFont(TTFont('arial', 'Vera.ttf'))
     page = canvas.Canvas(buffer)
     page.setFont('arial', 13)
     page.drawString(100, 750, "Список покупок")
@@ -36,7 +53,16 @@ def download_cart(request):
     page.showPage()
     page.save()
     buffer.seek(0)
+    buffer.encode('UTF8')
     return FileResponse(
         buffer,
         as_attachment=True,
         filename='shopping_list.pdf')
+'''
+
+#     page = canvas.setTitle("My PDF Titile")
+        # filename='shopping_list.pdf')
+#    canvas.stringWidth(self, text, fontName, fontSize, encoding=None)
+# FAKER = Faker(locale="hy-AM")  # UTF-8 text generator
+
+

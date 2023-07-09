@@ -32,8 +32,10 @@ class MyUserSerializer(UserSerializer):
 
 
 class FollowSerializer(MyUserSerializer):
+    recipes = serializers.SerializerMethodField()
     recipes_count = serializers.IntegerField(source='recipes.count',
                                              read_only=True)
+    is_subscribed = serializers.BooleanField(default=True)
 
     class Meta:
         model = User
@@ -44,7 +46,7 @@ class FollowSerializer(MyUserSerializer):
                             'first_name', 'last_name')
 
     def get_recipes(self, obj):
-        recipes = obj.author.recipes.all()
+        recipes = obj.recipes.all()
         serializer = RecipeShortSerializer(recipes, many=True,
                                            context=self.context)
         return serializer.data
@@ -58,12 +60,12 @@ class IngredientSerializer(serializers.ModelSerializer):
 
 
 class RecipeShortSerializer(ModelSerializer):
-
     image = Base64ImageField()
 
     class Meta:
         model = Recipe
         fields = ('id', 'name', 'image', 'cooking_time')
+        # f
 
 
 class IngredientInRecipeCreateSerializer(ModelSerializer):
@@ -137,7 +139,6 @@ class RecipeCreateSerializer(ModelSerializer):
         ingredients = validated_data.pop('ingredients')
         recipe = Recipe.objects.create(**validated_data)
         recipe.tags.set(tags)
-
         Recipe_bulk = [
             RecipeIngredients(
                 recipe=recipe,
@@ -146,7 +147,6 @@ class RecipeCreateSerializer(ModelSerializer):
             for ingredient in ingredients]
 
         RecipeIngredients.objects.bulk_create(Recipe_bulk)
-
         return recipe
 
     def update(self, instance, validated_data):
