@@ -46,7 +46,7 @@ class FollowSerializer(MyUserSerializer):
                             'first_name', 'last_name')
 
     def get_recipes(self, obj):
-        recipes = obj.recipes.all()
+        recipes = obj.author.recipes.all()
         serializer = RecipeShortSerializer(recipes, many=True,
                                            context=self.context)
         return serializer.data
@@ -65,7 +65,6 @@ class RecipeShortSerializer(ModelSerializer):
     class Meta:
         model = Recipe
         fields = ('id', 'name', 'image', 'cooking_time')
-        # f
 
 
 class IngredientInRecipeCreateSerializer(ModelSerializer):
