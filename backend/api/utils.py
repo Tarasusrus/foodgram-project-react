@@ -7,8 +7,8 @@ from api.serializers import RecipeIngredients
 def download_cart(request):
     ingredients = RecipeIngredients.objects.filter(
         recipe__shopping__user=request.user).values(
-        'ingredient__name', 'ingredient__measurement_unit'
-        ).annotate(amount=Sum('amount'))
+        'ingredient__name', 'ingredient__measurement_unit').annotate(
+        amount=Sum('amount'))
 
     text = ''
     for ingredient in ingredients:
