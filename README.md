@@ -11,8 +11,8 @@ http://localhost/api/docs/redoc.html
 
 ### Доступные адреса Foodgram:
 ```
-https://brusselscats.hopto.org/
-https://brusselscats.hopto.org/admin/
+пока работаю над этим
+пока работаю над этим
 ```
 
 ### Использовалось:
@@ -25,6 +25,6 @@ https://brusselscats.hopto.org/admin/
 
 # Тестовый пользователь 
 ```
-Эл. почта - blob@ll.hh
-Пароль - otto109020
+Эл. почта - example@example.com
+Пароль - 6661789
 ```

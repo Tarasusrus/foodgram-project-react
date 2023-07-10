@@ -36,7 +36,8 @@ packaging==23.1
 pep8-naming==0.13.3
 Pillow==9.5.0
 pluggy==0.13.1
-psycopg2-binary==2.8.6
+psycopg2-binary==2.9.6
+#psycopg2
 py==1.11.0
 pycodestyle==2.9.1
 pycparser==2.21
