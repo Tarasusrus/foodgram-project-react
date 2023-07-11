@@ -1,14 +1,14 @@
-from backend.api.filters import NameSearchFilter, RecipeFilter
-from backend.api.pagination import CustumPagination
-from backend.api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
-from backend.api.serializers import (FollowSerializer, IngredientSerializer,
+from api.filters import NameSearchFilter, RecipeFilter
+from api.pagination import CustumPagination
+from api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
+from api.serializers import (FollowSerializer, IngredientSerializer,
                                      MyUserSerializer, RecipeCreateSerializer,
                                      RecipeReadSerializer,
                                      RecipeShortSerializer, TagsSerializer)
-from backend.api.utils import download_cart
-from backend.recipes.models import (Favourite, Ingredient, Recipe,
+from api.utils import download_cart
+from recipes.models import (Favourite, Ingredient, Recipe,
                                     ShoppingCart, Tag)
-from backend.users.models import Follow, User
+from users.models import Follow, User
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
@@ -267,7 +267,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     @action(
         detail=True,
         methods=['post', 'delete'],
-        ermission_classes=[IsAuthenticated]
+        permission_classes=[IsAuthenticated]
     )
     def shopping_cart(self, request, pk=None):
         """

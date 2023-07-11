@@ -17,7 +17,7 @@
 с заданными  заголовками и именем файла.
 
 """
-from backend.api.serializers import RecipeIngredients
+from api.serializers import RecipeIngredients
 from django.db.models.aggregates import Sum
 from django.http import HttpResponse
 
