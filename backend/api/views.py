@@ -1,11 +1,3 @@
-from django.shortcuts import get_object_or_404
-from django_filters.rest_framework import DjangoFilterBackend
-from djoser.views import UserViewSet
-from rest_framework import mixins, status, viewsets
-from rest_framework.decorators import action
-from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
-from rest_framework.response import Response
-
 from api.filters import NameSearchFilter, RecipeFilter
 from api.pagination import CustumPagination
 from api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
@@ -14,8 +6,14 @@ from api.serializers import (FollowSerializer, IngredientSerializer,
                              RecipeReadSerializer, RecipeShortSerializer,
                              TagsSerializer)
 from api.utils import download_cart
-
-from recipes.models import (Favourite, Ingredient, Recipe, ShoppingCart, Tag)
+from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
+from djoser.views import UserViewSet
+from recipes.models import Favourite, Ingredient, Recipe, ShoppingCart, Tag
+from rest_framework import mixins, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
+from rest_framework.response import Response
 from users.models import Follow, User
 
 
