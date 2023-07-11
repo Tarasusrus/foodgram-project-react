@@ -17,13 +17,22 @@ class RecipeFilter(rest_framework.FilterSet):
     author - фильтрация по автору рецепта.
     tags - фильтрация по тегам рецепта.
     is_favorited - фильтрация по избранным рецептам текущего пользователя.
-    is_in_shopping_cart - фильтрация по рецептам, находящимся в корзине покупок текущего пользователя.
+    is_in_shopping_cart - фильтрация по рецептам,
+    находящимся в корзине покупок текущего пользователя.
     """
 
-    author = rest_framework.ModelChoiceFilter(queryset=User.objects.all())
-    tags = rest_framework.AllValuesMultipleFilter(field_name='tags__slug')
-    is_favorited = rest_framework.BooleanFilter(method='filter_is_favorited')
-    is_in_shopping_cart = rest_framework.BooleanFilter(method='filter_is_in_shopping_cart')
+    author = rest_framework.ModelChoiceFilter(
+        queryset=User.objects.all()
+    )
+    tags = rest_framework.AllValuesMultipleFilter(
+        field_name='tags__slug'
+    )
+    is_favorited = rest_framework.BooleanFilter(
+        method='filter_is_favorited'
+    )
+    is_in_shopping_cart = rest_framework.BooleanFilter(
+        method='filter_is_in_shopping_cart'
+    )
 
     class Meta:
         model = Recipe
@@ -45,7 +54,8 @@ class RecipeFilter(rest_framework.FilterSet):
 
     def filter_is_in_shopping_cart(self, queryset, name, value):
         """
-        Фильтрация рецептов по рецептам, находящимся в корзине покупок текущего пользователя.
+        Фильтрация рецептов по рецептам,
+        находящимся в корзине покупок текущего пользователя.
 
         queryset - исходный набор данных рецептов.
         name - имя поля фильтра.

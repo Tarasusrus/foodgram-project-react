@@ -1,7 +1,7 @@
 from djoser.serializers import UserSerializer
 from drf_extra_fields.fields import Base64ImageField
-from backend.recipes.models import (Favourite, Ingredient, Recipe, RecipeIngredients,
-                            ShoppingCart, Tag)
+from backend.recipes.models import (Favourite, Ingredient, Recipe,
+                                    RecipeIngredients, ShoppingCart, Tag)
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.fields import SerializerMethodField
@@ -13,7 +13,7 @@ class TagsSerializer(serializers.ModelSerializer):
     """
     Сериализатор для модели Tag.
 
-    Сериализатор, используемый для преобразования модели Tag в JSON-представление
+    Сериализатор, используемый для преобразования Tag в JSON-представление
     и обратно при выполнении операций сериализации и десериализации.
     """
 
@@ -26,7 +26,7 @@ class MyUserSerializer(UserSerializer):
     """
     Сериализатор для модели User с дополнительным полем is_subscribed.
 
-    Сериализатор, используемый для преобразования модели User в JSON-представление
+    Сериализатор, используемый для преобразования User в JSON-представление
     и обратно при выполнении операций сериализации и десериализации. Добавляет
     дополнительное поле is_subscribed, которое указывает, подписан ли текущий
     пользователь на данного пользователя.
@@ -36,7 +36,13 @@ class MyUserSerializer(UserSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "email", "username", "first_name", "last_name", "is_subscribed")
+        fields = (
+            "id",
+            "email",
+            "username",
+            "first_name",
+            "last_name",
+            "is_subscribed")
 
     def get_is_subscribed(self, obj):
         """
@@ -60,16 +66,19 @@ class MyUserSerializer(UserSerializer):
 
 class FollowSerializer(MyUserSerializer):
     """
-    Сериализатор для модели Follow с дополнительными полями recipes и recipes_count.
+    Сериализатор для модели Follow с дополнительными recipes и recipes_count.
 
-    Сериализатор, используемый для преобразования модели Follow в JSON-представление
-    и обратно при выполнении операций сериализации и десериализации. Наследуется от
-    сериализатора MyUserSerializer и добавляет дополнительные поля recipes и recipes_count,
+    Сериализатор, используемый для преобразования Follow в JSON-представление
+    и обратно при выполнении сериализации и десериализации. Наследуется от
+    сериализатора MyUserSerializer и добавляет recipes и recipes_count,
     которые представляют информацию о рецептах, связанных с данной подпиской.
     """
 
     recipes = serializers.SerializerMethodField()
-    recipes_count = serializers.IntegerField(source="recipes.count", read_only=True)
+    recipes_count = serializers.IntegerField(
+        source="recipes.count",
+        read_only=True
+    )
     is_subscribed = serializers.BooleanField(default=True)
 
     class Meta:
@@ -91,7 +100,7 @@ class FollowSerializer(MyUserSerializer):
         Получает список рецептов, связанных с данной подпиской.
 
         Возвращает список рецептов, связанных с автором подписки (obj.author),
-        в виде сериализованных данных с использованием сериализатора RecipeShortSerializer.
+        в виде сериализованных данных с использованием RecipeShortSerializer.
 
         Args:
             obj: Объект подписки, для которой получаются рецепты.
@@ -100,7 +109,9 @@ class FollowSerializer(MyUserSerializer):
             list: Список сериализованных данных рецептов.
         """
         recipes = obj.author.recipes.all()
-        serializer = RecipeShortSerializer(recipes, many=True, context=self.context)
+        serializer = RecipeShortSerializer(
+            recipes, many=True, context=self.context
+        )
         return serializer.data
 
 
@@ -108,7 +119,7 @@ class IngredientSerializer(serializers.ModelSerializer):
     """
     Сериализатор для модели Ingredient.
 
-    Сериализатор, используемый для преобразования модели Ingredient в JSON-представление
+    Сериализатор, используемый для преобразования Ingredient в JSON
     и обратно при выполнении операций сериализации и десериализации.
 
     Attributes:
@@ -125,8 +136,8 @@ class RecipeShortSerializer(ModelSerializer):
     """
     Сериализатор для краткого представления модели Recipe.
 
-    Сериализатор, используемый для преобразования краткого представления модели Recipe
-    в JSON-представление и обратно при выполнении операций сериализации и десериализации.
+    Сериализатор, используемый для преобразования краткого представления Recipe
+    в JSON и обратно при выполнении сериализации и десериализации.
 
     Attributes:
         model: Модель Recipe, с которой работает сериализатор.
@@ -145,7 +156,8 @@ class IngredientInRecipeCreateSerializer(ModelSerializer):
     Сериализатор для создания ингредиента в рецепте.
 
     Сериализатор, используемый для преобразования ингредиента в рецепте
-    в JSON-представление и обратно при выполнении операций сериализации и десериализации.
+    в JSON-представление и обратно при выполнении операций сериализации и
+    десериализации.
 
     Attributes:
         model: Модель RecipeIngredients, с которой работает сериализатор.
@@ -155,7 +167,9 @@ class IngredientInRecipeCreateSerializer(ModelSerializer):
     id = PrimaryKeyRelatedField(queryset=Ingredient.objects.all())
     name = serializers.ReadOnlyField(source="ingredient.name")
 
-    measurement_unit = serializers.ReadOnlyField(source="ingredient.measurement_unit")
+    measurement_unit = serializers.ReadOnlyField(
+        source="ingredient.measurement_unit"
+    )
 
     class Meta:
         model = RecipeIngredients
@@ -171,8 +185,9 @@ class RecipeReadSerializer(ModelSerializer):
 
     Attributes:
         tags: Сериализатор TagsSerializer для сериализации связанных тегов.
-        author: Сериализатор MyUserSerializer для сериализации связанного автора.
-        ingredients: Сериализатор IngredientInRecipeCreateSerializer для сериализации
+        author: Сериализатор MyUserSerializer для сериализации автора.
+        ingredients:
+        Сериализатор IngredientInRecipeCreateSerializer для сериализации
             связанных ингредиентов в рецепте.
         image: Поле Base64ImageField для сериализации изображения рецепта.
         is_favorited: Поле SerializerMethodField для определения,
@@ -233,7 +248,7 @@ class RecipeCreateSerializer(ModelSerializer):
 
     Attributes:
         tags: Поле PrimaryKeyRelatedField для сериализации связанных тегов.
-        author: Сериализатор MyUserSerializer для сериализации связанного автора.
+        author: Сериализатор MyUserSerializer для сериализации автора.
         ingredients: Сериализатор IngredientInRecipeCreateSerializer для
             сериализации связанных ингредиентов в рецепте.
         image: Поле Base64ImageField для сериализации изображения рецепта.
@@ -245,12 +260,15 @@ class RecipeCreateSerializer(ModelSerializer):
     Methods:
         validate_ingredients: Метод для проверки валидности ингредиентов
             в рецепте.
-        to_representation: Метод для преобразования данных рецепта в JSON-представление.
+        to_representation:
+        Метод для преобразования данных рецепта в JSON-представление.
         create: Метод для создания нового рецепта.
         update: Метод для обновления существующего рецепта.
     """
 
-    tags = serializers.PrimaryKeyRelatedField(queryset=Tag.objects.all(), many=True)
+    tags = serializers.PrimaryKeyRelatedField(
+        queryset=Tag.objects.all(), many=True
+    )
     author = MyUserSerializer(read_only=True)
     ingredients = IngredientInRecipeCreateSerializer(many=True)
     image = Base64ImageField()
