@@ -1,5 +1,4 @@
 from django.contrib import admin
-# Register your models here. #  api_yamdb
 from users.models import Follow, User
 
 
