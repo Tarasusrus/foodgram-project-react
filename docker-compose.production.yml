@@ -18,6 +18,8 @@ services:
     volumes:
       - static:/static_backend
       - media_value:/app/media/
+    ports:
+      - 8000:8000
   frontend:
     image: tarasusrus/foodgram_frontend
     env_file: .env
