@@ -13,19 +13,19 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data  
   backend:
-    image: fxflorian/foodgram_backend
+    image: tarasusrus/foodgram_backend
     env_file: .env
     volumes:
       - static:/static_backend
       - media_value:/app/media/
   frontend:
-    image: fxflorian/foodgram_frontend
+    image: tarasusrus/foodgram_frontend
     env_file: .env
     command: cp -r /app/build/. /static/
     volumes:
       - static:/static
   nginx:
-    image: fxflorian/foodgram_nginx
+    image: tarasusrus/foodgram_gateway
     env_file: .env
     ports:
       - 9000:80
