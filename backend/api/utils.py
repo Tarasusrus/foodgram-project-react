@@ -17,9 +17,10 @@
 с заданными  заголовками и именем файла.
 
 """
-from api.serializers import RecipeIngredients
 from django.db.models.aggregates import Sum
 from django.http import HttpResponse
+
+from api.serializers import RecipeIngredients
 
 
 def download_cart(request):

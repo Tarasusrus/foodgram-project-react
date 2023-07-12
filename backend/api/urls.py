@@ -16,10 +16,11 @@ URL-маршруты также включают конечную точку 'au
 которая использует URL-маршруты из пакета 'djoser.urls.authtoken'.
 """
 
-from api.views import (IngredientViewSet, MeUserViewSet, RecipeViewSet,
-                               TagViewSet)
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
+
+from api.views import (IngredientViewSet, MeUserViewSet, RecipeViewSet,
+                       TagViewSet)
 
 router = DefaultRouter()
 app_name = 'api'

@@ -1,7 +1,8 @@
-from api.validators import validate_ingredients, validate_year
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import UniqueConstraint
+
+from api.validators import validate_ingredients, validate_year
 from users.models import User
 
 
