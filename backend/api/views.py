@@ -1,21 +1,21 @@
-from api.filters import NameSearchFilter, RecipeFilter
-from api.pagination import CustumPagination
-from api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
-from api.serializers import (FollowSerializer, IngredientSerializer,
-                                     MyUserSerializer, RecipeCreateSerializer,
-                                     RecipeReadSerializer,
-                                     RecipeShortSerializer, TagsSerializer)
-from api.utils import download_cart
-from recipes.models import (Favourite, Ingredient, Recipe,
-                                    ShoppingCart, Tag)
-from users.models import Follow, User
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
+from recipes.models import Favourite, Ingredient, Recipe, ShoppingCart, Tag
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
 from rest_framework.response import Response
+from users.models import Follow, User
+
+from api.filters import NameSearchFilter, RecipeFilter
+from api.pagination import CustumPagination
+from api.permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
+from api.serializers import (FollowSerializer, IngredientSerializer,
+                             MyUserSerializer, RecipeCreateSerializer,
+                             RecipeReadSerializer, RecipeShortSerializer,
+                             TagsSerializer)
+from api.utils import download_cart
 
 
 class MeUserViewSet(UserViewSet):
@@ -290,7 +290,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         recipe = get_object_or_404(Recipe, pk=pk)
 
         if self.request.method == 'POST':
-            if ShoppingCart.objects.filter(user=user, recipe=recipe).exists():
+            if user.shopping_cart.filter(recipe=recipe).exists():
                 return Response(
                     {'errors': 'Уже в списке'},
                     status=status.HTTP_400_BAD_REQUEST
@@ -302,10 +302,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         if self.request.method == 'DELETE':
-            if not ShoppingCart.objects.filter(
-                    user=user,
-                    recipe=recipe
-            ).exists():
+            if not user.shopping_cart.filter(recipe=recipe).exists():
                 return Response(
                     {'errors': 'Рецепта нет в списке покупок'},
                     status=status.HTTP_400_BAD_REQUEST

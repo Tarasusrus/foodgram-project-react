@@ -3,68 +3,82 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import UniqueConstraint
 
-# from django.contrib.auth import get_user_model
-
-# Create your models here.  # api_yamdb / hw5
-
-# User = get_user_model()
-
 
 class User(AbstractUser):
-    '''Модель пользователя.'''
+    """
+    Модель пользователя.
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ('username', 'first_name', 'last_name',)
-
+    Поля:
+    - email: почта пользователя
+    - username: имя пользователя
+    - first_name: имя пользователя
+    - last_name: фамилия пользователя
+    - password: пароль пользователя
+    """
     email = models.EmailField(
         verbose_name='Почта',
         max_length=254,
-        unique=True)
+        unique=True
+    )
 
     username = models.CharField(
-        verbose_name='имя пользователя',
+        verbose_name='Имя пользователя',
         validators=(validate_username,),
-        max_length=150)
+        max_length=150
+    )
 
     first_name = models.CharField(
         verbose_name='Имя',
-        max_length=150)
+        max_length=150
+    )
+
     last_name = models.CharField(
         verbose_name='Фамилия',
-        max_length=150)
+        max_length=150
+    )
+
     password = models.CharField(
         verbose_name='Пароль',
-        max_length=150)
+        max_length=150
+    )
 
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
         ordering = ('pk',)
         constraints = (
-            models.UniqueConstraint(fields=('email', 'username'),
-                                    name='unique_auth'),
+            models.UniqueConstraint(
+                fields=('email', 'username'),
+                name='unique_auth'),
         )
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ('username', 'first_name', 'last_name')
 
     def __str__(self):
         return self.username
 
 
 class Follow(models.Model):
-    '''Модель подписчика.'''
+    '''
+    Модель подписчика.
 
+    Поля:
+    - user: пользователь, который подписывается
+    - author: пользователь, на которого подписываются
+    '''
     user = models.ForeignKey(
         User,
         verbose_name='Подписчик',
         on_delete=models.CASCADE,
-        null=True, blank=True,
-        related_name='follower',
+        null=False
     )
+
     author = models.ForeignKey(
         User,
         verbose_name='Автор',
         on_delete=models.CASCADE,
-        null=True, blank=True,
-        related_name='following'
+        null=False
     )
 
     class Meta:
@@ -72,9 +86,10 @@ class Follow(models.Model):
         verbose_name_plural = 'Подписчики'
         ordering = ('-pk',)
         constraints = (
-            UniqueConstraint(fields=('user', 'author'),
-                             name='unique_subscription'),
+            UniqueConstraint(
+                fields=('user', 'author'),
+                name='unique_subscription'),
         )
 
     def __str__(self):
-        return self.user
+        return str(self.user)
