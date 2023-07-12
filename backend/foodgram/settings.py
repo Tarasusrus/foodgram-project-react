@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = '-y@o%x-j-^w4vodfq*v8(5r!(73i65a8#m!%uup6$idbyl)m8o'
 
-ALLOWED_HOSTS = ['158.160.12.112', '127.0.0.1', 'localhost', '0.0.0.0']
+ALLOWED_HOSTS = ['158.160.12.112', '127.0.0.1', 'localhost', '0.0.0.0', 'yandx.zapto.org']
 
 DEBUG = True
 
