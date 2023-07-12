@@ -41,6 +41,12 @@ jobs:
         cd backend/
         python -m flake8 foodgram/
 
+  check_disk_space:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check disk space
+        run: df -h
+
   build_and_push_to_docker_hub:
     name: Push Docker image to DockerHub
     runs-on: ubuntu-latest
