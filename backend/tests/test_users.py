@@ -10,6 +10,7 @@ def test_user_list(api_client):
     assert response.status_code == status.HTTP_200_OK
     assert len(response.data) > 0  # Проверяем, что список не пустой
 
+
 @pytest.mark.django_db
 def test_user_registration(api_client):
     url = reverse('api:user-list')
@@ -42,4 +43,4 @@ def test_user_token_take(api_client):
 
     assert response.status_code == status.HTTP_201_CREATED
     assert response.data['password'] == 'testpassword'
-    assert response.data['email'] == None
+    assert response.data['email'] is None
