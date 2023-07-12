@@ -102,6 +102,18 @@ jobs:
           push: true
           tags: tarasusrus/foodgram_nginx:latest
 
+  clear_server_data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clear npm cache
+        run: npm cache clean --force
+      - name: Clear APT cache
+        run: sudo apt-get clean
+      - name: Clear system logs
+        run: sudo journalctl --vacuum-time=1d
+      - name: Clear Docker data
+        run: sudo docker system prune -af
+
   deploy:
     runs-on: ubuntu-latest
     needs: 
