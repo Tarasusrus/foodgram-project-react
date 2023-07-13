@@ -11,9 +11,9 @@ jobs:
       postgres:
         image: postgres:13.10
         env:
-          POSTGRES_USER: django_user
-          POSTGRES_PASSWORD: django_password
-          POSTGRES_DB: django_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: 6661789
+          POSTGRES_DB: db
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -32,10 +32,10 @@ jobs:
     - name: Test with flake8
       env:
         # DJANGO_KEY: django-insecure-i3oa78jvvn)y(yvx)_zo$(uxp4$jw4c*dub1bl6#&u5mf&x_ix
-        POSTGRES_USER: django_user
-        POSTGRES_PASSWORD: django_password
-        POSTGRES_DB: django_db
-        DB_HOST: 127.0.0.1
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: 6661789
+        POSTGRES_DB: db
+        DB_HOST: db
         DB_PORT: 5432
       run: |
         cd backend/
@@ -43,6 +43,7 @@ jobs:
 
   check_disk_space:
     runs-on: ubuntu-latest
+    needs: clear_server_data
     steps:
       - name: Check disk space
         run: df -h
