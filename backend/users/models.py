@@ -61,17 +61,11 @@ class User(AbstractUser):
 
 
 class Follow(models.Model):
-    '''
-    Модель подписчика.
-
-    Поля:
-    - user: пользователь, который подписывается
-    - author: пользователь, на которого подписываются
-    '''
     user = models.ForeignKey(
         User,
         verbose_name='Подписчик',
         on_delete=models.CASCADE,
+        related_name='following',
         null=False
     )
 
@@ -79,6 +73,7 @@ class Follow(models.Model):
         User,
         verbose_name='Автор',
         on_delete=models.CASCADE,
+        related_name='followers',
         null=False
     )
 
