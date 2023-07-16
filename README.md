@@ -11,8 +11,8 @@ http://localhost/api/docs/redoc.html
 
 ### Доступные адреса Foodgram:
 ```
-пока работаю над этим
-пока работаю над этим
+https://yandx.zapto.org
+158.160.12.112
 ```
 
 ### Использовалось:
@@ -26,5 +26,5 @@ http://localhost/api/docs/redoc.html
 # Тестовый пользователь 
 ```
 Эл. почта - example@example.com
-Пароль - 6661789
+Пароль - Admin
 ```
