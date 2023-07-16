@@ -112,14 +112,9 @@ jobs:
   clear_server_data:
     runs-on: ubuntu-latest
     steps:
-      - name: Clear npm cache
-        run: npm cache clean --force
-      - name: Clear APT cache
-        run: sudo apt-get clean
-      - name: Clear system logs
-        run: sudo journalctl --vacuum-time=1h
       - name: Clear Docker data
-        run: sudo docker system prune -af
+        run: sudo docker image prune -af
+
 
   deploy:
     runs-on: ubuntu-latest
