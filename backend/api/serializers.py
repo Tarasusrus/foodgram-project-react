@@ -109,7 +109,7 @@ class FollowSerializer(MyUserSerializer):
         Returns:
             list: Список сериализованных данных рецептов.
         """
-        recipes = obj.author.recipes.all()
+        recipes = obj.recipes.all()
         serializer = RecipeShortSerializer(
             recipes, many=True, context=self.context
         )
@@ -331,6 +331,10 @@ class RecipeCreateSerializer(ModelSerializer):
         """
         tags = validated_data.pop("tags")
         ingredients = validated_data.pop("ingredients")
+        ingredient_ids = [ingredient.get("id") for ingredient in ingredients]
+        if len(set(ingredient_ids)) != len(ingredient_ids):
+            raise ValidationError("Ингредиенты не должны дублироваться.")
+
         recipe = Recipe.objects.create(**validated_data)
         recipe.tags.set(tags)
         Recipe_bulk = [
@@ -360,6 +364,10 @@ class RecipeCreateSerializer(ModelSerializer):
         if tags is not None:
             instance.tags.set(tags)
         ingredients = validated_data.pop("ingredients", None)
+        ingredient_ids = [ingredient.get("id") for ingredient in ingredients]
+        if len(set(ingredient_ids)) != len(ingredient_ids):
+            raise ValidationError("Ингредиенты не должны дублироваться.")
+
         if ingredients is not None:
             instance.ingredients.clear()
             for ingredient in ingredients:

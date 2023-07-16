@@ -169,7 +169,7 @@ class IngredientViewSet(
     serializer_class = IngredientSerializer
     permission_classes = (IsAdminOrReadOnly,)
     filter_backends = (NameSearchFilter,)
-    search_fields = ('^name',)
+    search_fields = ('name',)
     pagination_class = None
 
 

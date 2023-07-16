@@ -13,7 +13,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: 6661789
-          POSTGRES_DB: db
+          POSTGRES_DB: postgres
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -34,7 +34,7 @@ jobs:
         # DJANGO_KEY: django-insecure-i3oa78jvvn)y(yvx)_zo$(uxp4$jw4c*dub1bl6#&u5mf&x_ix
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: 6661789
-        POSTGRES_DB: db
+        POSTGRES_DB: postgres
         DB_HOST: db
         DB_PORT: 5432
       run: |
@@ -161,6 +161,9 @@ jobs:
           sudo docker compose -f docker-compose.production.yml exec backend python manage.py importcsv
           sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
           sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/collect_static/. /static_backend/static_backend/
+          sudo docker compose -f docker-compose.production.yml exec backend python manage.py makemigrations
+          sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
+
 
   send_message:
     runs-on: ubuntu-latest
