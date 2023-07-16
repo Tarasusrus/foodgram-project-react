@@ -65,5 +65,5 @@ class RecipeFilter(rest_framework.FilterSet):
         Возвращает отфильтрованный набор данных рецептов.
         """
         if value and self.request.user.is_authenticated:
-            return queryset.filter(shopping__user=self.request.user)
+            return queryset.filter(shopping_cart__user=self.request.user)
         return queryset
