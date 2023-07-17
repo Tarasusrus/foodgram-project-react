@@ -62,7 +62,7 @@ class MeUserViewSet(UserViewSet):
         - Только аутентифицированные могут использовать данный метод.
         """
         user = request.user
-        queryset = User.objects.filter(following__user=user)
+        queryset = User.objects.filter(followers__user=user)
         page = self.paginate_queryset(queryset)
         serializer = FollowSerializer(page,
                                       many=True,
